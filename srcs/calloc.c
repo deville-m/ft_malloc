@@ -1,33 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lstpop.c                                           :+:      :+:    :+:   */
+/*   calloc.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mdeville <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/05/07 15:01:35 by mdeville          #+#    #+#             */
-/*   Updated: 2019/05/07 15:21:46 by mdeville         ###   ########.fr       */
+/*   Created: 2019/11/05 17:59:33 by mdeville          #+#    #+#             */
+/*   Updated: 2019/11/05 18:03:22 by mdeville         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "header.h"
+#include "ft_malloc.h"
+#include "chunk.h"
+#include "memory.h"
 
-t_header	*lstpop(t_header **head)
+void	*calloc(size_t count, size_t size)
 {
-	t_header *tmp;
+	size_t final;
+	void *p;
 
-	if (!head)
+	final = size * count;
+	if (!(p = malloc(final)))
 		return (NULL);
-	if (!*head)
-		return (NULL);
-	tmp = *head;
-	if (tmp->next == tmp)
-	{
-		*head = NULL;
-		return (tmp);
-	}
-	tmp->prev->next = tmp->next;
-	tmp->next->prev = tmp->prev;
-	*head = tmp->next;
-	return (tmp);
+	ft_bzero(p, final);
+	return (p);
 }

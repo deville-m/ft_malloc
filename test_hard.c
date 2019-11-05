@@ -49,7 +49,7 @@ int main()
 		}
 		else
 		{
-			size = rand() % (LIMMEDIUM + 1);
+			size = rand() % (MEDIUM + 1);
 			write(1, "malloc ", 7);
 			putnbr(size, 10);
 			write(1, "\n", 1);

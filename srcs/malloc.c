@@ -6,18 +6,49 @@
 /*   By: mdeville <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/11 17:39:16 by mdeville          #+#    #+#             */
-/*   Updated: 2019/10/16 19:33:48 by mdeville         ###   ########.fr       */
+/*   Updated: 2019/11/05 19:25:02 by mdeville         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdbool.h>
 #include <unistd.h>
 #include <sys/mman.h>
 #include "ft_malloc.h"
-#include "header.h"
+#include "chunk.h"
 
-t_header	*internal_malloc(size_t nbu, t_header **free_lst)
+int			more_core(t_header **free_lst)
 {
-	return (NULL);
+	t_header	*addr;
+	size_t		size;
+
+	size = (100 * MEDIUM + g_page_size - 1) / g_page_size * g_page_size;
+	addr = (t_header *)mmap(NULL,
+							size,
+							PROT_READ | PROT_WRITE,
+							MAP_SHARED | MAP_ANONYMOUS,
+							-1, 0);
+	if (!addr)
+		return (0);
+	addr->size = size - sizeof(t_header) - sizeof(t_footer);
+	addr->free = true;
+	addr->pos = START;
+	addr->next = addr;
+	addr->prev = addr;
+	get_footer(addr)->size = addr->size;
+	restore(addr, free_lst);
+	return (1);
+}
+
+t_header	*internal_malloc(size_t size, t_header **free_lst)
+{
+	t_header *temp;
+
+	temp = get_chunk(size, free_lst);
+	if (!temp && !more_core(free_lst))
+		return (NULL);
+	if (!temp)
+		temp = get_chunk(size, free_lst);
+	return (temp);
 }
 
 void		*bigalloc(size_t size)
@@ -31,7 +62,9 @@ void		*bigalloc(size_t size)
 							-1, 0);
 	if (!addr)
 		return (NULL);
-	addr->size = size - sizeof(t_header);
+	addr->size = size - sizeof(t_header) - sizeof(t_footer);
+	addr->free = false;
+	get_footer(addr)->size = addr->size;
 	return (addr);
 }
 
@@ -46,12 +79,12 @@ void		*malloc(size_t size)
 	nb_units = (size + CHKRES - 1) / CHKRES;
 	real_size = nb_units * CHKRES;
 	if (real_size < TINY)
-		temp = internal_malloc(nb_units, &g_free[0]);
+		temp = internal_malloc(real_size, &g_free[0]);
 	else if (real_size < MEDIUM)
-		temp = internal_malloc(nb_units, &g_free[1]);
+		temp = internal_malloc(real_size, &g_free[1]);
 	else
-		temp = bigalloc(((real_size + sizeof(t_header) + g_page_size - 1) /
-							g_page_size) * g_page_size);
+		temp = bigalloc(((real_size + sizeof(t_header) + sizeof(t_footer)
+						+ g_page_size - 1) / g_page_size) * g_page_size);
 	if (!temp)
 		return (NULL);
 	return ((void *)temp + sizeof(t_header));

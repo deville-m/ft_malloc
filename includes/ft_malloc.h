@@ -6,7 +6,7 @@
 /*   By: mdeville <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/11 18:27:54 by mdeville          #+#    #+#             */
-/*   Updated: 2019/10/16 18:19:22 by mdeville         ###   ########.fr       */
+/*   Updated: 2019/10/17 19:25:29 by mdeville         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 
 # define TINY 512
 # define MEDIUM 4096
+
+# include <stddef.h>
 
 void			free(void *ptr);
 void			*malloc(size_t size);

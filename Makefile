@@ -9,12 +9,11 @@ LIB = libft.a
 LIBDIR = libft
 
 SRC =	malloc.c \
+		realloc.c \
+		calloc.c \
+		free.c \
 		show_alloc_mem.c \
-		header/lstappend.c \
-		header/lstprepend.c \
-		header/lstpop.c \
-		header/lstlen.c \
-		#free.c \
+		chunk.c
 
 TEST =	correc/test0.c \
 		correc/test1.c \
