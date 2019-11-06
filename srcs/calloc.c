@@ -6,7 +6,7 @@
 /*   By: mdeville <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/05 17:59:33 by mdeville          #+#    #+#             */
-/*   Updated: 2019/11/05 18:03:22 by mdeville         ###   ########.fr       */
+/*   Updated: 2019/11/06 15:00:53 by mdeville         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@
 
 void	*calloc(size_t count, size_t size)
 {
-	size_t final;
-	void *p;
+	size_t	final;
+	void	*p;
 
 	final = size * count;
 	if (!(p = malloc(final)))

@@ -6,7 +6,7 @@
 /*   By: mdeville <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/11 18:27:54 by mdeville          #+#    #+#             */
-/*   Updated: 2019/10/17 19:25:29 by mdeville         ###   ########.fr       */
+/*   Updated: 2019/11/06 16:08:10 by mdeville         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,5 +26,6 @@ void			*realloc(void *ptr, size_t size);
 void			*calloc(size_t count, size_t size);
 void			show_alloc_mem();
 void			putnbr(size_t n, size_t base);
+int				puts(const char *s);
 
 #endif

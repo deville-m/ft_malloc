@@ -22,14 +22,13 @@ int main()
 	size_t size;
 
 	srand(1);
-	for (i = 0; i < 10; i++)
+	for (i = 0; i < 1000; i++)
 	{
 		size = rand() % 1024;
 		write(1, "\e[31mmalloc\e[0m\n", 16);
 		putnbr(size, 10);
 		write(1, "\n", 1);
 		p = malloc(size);
-		show_alloc_mem();
 		if (i % 2)
 		{
 			write(1, "\e[32mfree\e[0m\n", 14);

@@ -6,7 +6,7 @@
 /*   By: mdeville <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/10 12:28:41 by mdeville          #+#    #+#             */
-/*   Updated: 2019/11/05 17:18:33 by mdeville         ###   ########.fr       */
+/*   Updated: 2019/11/06 16:08:28 by mdeville         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,16 @@
 #include "ft_string.h"
 #include "chunk.h"
 
+int		puts(const char *s)
+{
+	while (*s)
+		write(1, s++, 1);
+	return (1);
+}
+
 void	putnbr(size_t n, size_t base)
 {
-	char buf[] = "0123456789abcdef";
+	static char buf[] = "0123456789abcdef";
 
 	if (n < base)
 		write(1, buf + n, 1);
@@ -51,7 +58,6 @@ void	printlst(const char *name, t_header *lst)
 	write(1, "0x", 2);
 	putnbr((size_t)lst, 16);
 	write(1, "\n", 1);
-
 	if (!lst)
 		return ;
 	print_header(lst);
@@ -64,7 +70,7 @@ void	printlst(const char *name, t_header *lst)
 	write(1, "\n", 1);
 }
 
-void	show_alloc_mem()
+void	show_alloc_mem(void)
 {
 	printlst("TINY : ", g_free[0]);
 	printlst("MEDIUM : ", g_free[1]);

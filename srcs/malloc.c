@@ -6,7 +6,7 @@
 /*   By: mdeville <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/11 17:39:16 by mdeville          #+#    #+#             */
-/*   Updated: 2019/11/05 19:25:02 by mdeville         ###   ########.fr       */
+/*   Updated: 2019/11/06 18:09:48 by mdeville         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int			more_core(t_header **free_lst)
 	addr->next = addr;
 	addr->prev = addr;
 	get_footer(addr)->size = addr->size;
-	restore(addr, free_lst);
+	insert(addr, free_lst);
 	return (1);
 }
 

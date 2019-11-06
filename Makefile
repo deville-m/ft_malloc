@@ -13,7 +13,8 @@ SRC =	malloc.c \
 		calloc.c \
 		free.c \
 		show_alloc_mem.c \
-		chunk.c
+		chunk.c \
+		chunk2.c
 
 TEST =	correc/test0.c \
 		correc/test1.c \
