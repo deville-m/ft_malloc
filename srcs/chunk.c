@@ -6,7 +6,7 @@
 /*   By: mdeville <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/17 18:35:24 by mdeville          #+#    #+#             */
-/*   Updated: 2019/11/06 18:10:59 by mdeville         ###   ########.fr       */
+/*   Updated: 2019/11/07 18:04:49 by mdeville         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ t_header	*split_chunk(size_t size, t_header *chunk)
 {
 	t_header	*left;
 
+	puts("before split\n");
+	show_alloc_mem();
 	left = (void *)chunk + sizeof(t_header) + size + sizeof(t_footer);
 	left->size = chunk->size - size - sizeof(t_footer) - sizeof(t_header);
 	left->free = true;
@@ -37,6 +39,8 @@ t_header	*split_chunk(size_t size, t_header *chunk)
 	chunk->size = size;
 	get_footer(chunk)->size = size;
 	get_footer(left)->size = left->size;
+	puts("after split\n");
+	show_alloc_mem();
 	return (chunk);
 }
 

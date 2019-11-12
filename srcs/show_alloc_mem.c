@@ -6,7 +6,7 @@
 /*   By: mdeville <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/10 12:28:41 by mdeville          #+#    #+#             */
-/*   Updated: 2019/11/06 16:08:28 by mdeville         ###   ########.fr       */
+/*   Updated: 2019/11/07 17:35:37 by mdeville         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,17 +37,19 @@ void	putnbr(size_t n, size_t base)
 
 void	print_header(t_header *h)
 {
-	write(1, "0x", 2);
+	puts("0x");
 	putnbr((size_t)h, 16);
-	write(1, " / ", 3);
-	write(1, "0x", 2);
+	puts(" / 0x");
 	putnbr((size_t)((void *)h + sizeof(t_header)), 16);
-	write(1, " - ", 3);
-	write(1, "0x", 2);
+	puts(" - 0x");
 	putnbr((size_t)((void *)h + sizeof(t_header) + h->size), 16);
-	write(1, " : ", 3);
+	puts(" : ");
 	putnbr(h->size, 10);
-	write(1, " octets\n", 8);
+	puts(" octets -- ");
+	putnbr(h->prev, 16);
+	puts(" -- ");
+	putnbr(h->next, 16);
+	puts("\n");
 }
 
 void	printlst(const char *name, t_header *lst)

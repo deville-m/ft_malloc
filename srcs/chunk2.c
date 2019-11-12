@@ -6,7 +6,7 @@
 /*   By: mdeville <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/06 15:05:22 by mdeville          #+#    #+#             */
-/*   Updated: 2019/11/06 18:44:39 by mdeville         ###   ########.fr       */
+/*   Updated: 2019/11/07 17:54:03 by mdeville         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,25 +21,25 @@ void		insert(t_header *chunk, t_header **free_lst)
 
 	if (!*free_lst)
 		*free_lst = chunk;
+	else if ((*free_lst)->prev < chunk)
+	{
+		walk = (*free_lst)->prev;
+		walk->next = chunk;
+		chunk->prev = walk;
+		(*free_lst)->prev = chunk;
+		chunk->next = (*free_lst);
+	}
 	else
 	{
 		walk = *free_lst;
-		while (walk < chunk && walk->next != *free_lst)
+		while (walk < chunk)
 			walk = walk->next;
-		if (walk->next == *free_lst)
-		{
-			walk->next = chunk;
-			chunk->prev = walk;
-			chunk->next = *free_lst;
-			(*free_lst)->prev = chunk;
-		}
-		else
-		{
-			walk->prev->next = chunk;
-			chunk->prev = walk->prev;
-			chunk->next = walk;
-			walk->prev = chunk;
-		}
+		walk->prev->next = chunk;
+		chunk->prev = walk->prev;
+		walk->prev = chunk;
+		chunk->next = walk;
+		if (walk == *free_lst)
+			*free_lst = chunk;
 	}
 }
 

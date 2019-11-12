@@ -29,6 +29,7 @@ int main()
 		putnbr(size, 10);
 		write(1, "\n", 1);
 		p = malloc(size);
+		show_alloc_mem();
 		if (i % 2)
 		{
 			write(1, "\e[32mfree\e[0m\n", 14);
