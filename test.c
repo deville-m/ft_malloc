@@ -29,6 +29,7 @@ int main()
 		putnbr(size, 10);
 		write(1, "\n", 1);
 		p = malloc(size);
+        write(1, "After return\n", 13);
 		show_alloc_mem();
 		if (i % 2)
 		{

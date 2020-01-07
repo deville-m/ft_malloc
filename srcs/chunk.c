@@ -21,12 +21,12 @@ t_footer	*get_footer(t_header *header)
 			header->size);
 }
 
+
+//TODO: simplify this function
 t_header	*split_chunk(size_t size, t_header *chunk)
 {
 	t_header	*left;
 
-	puts("before split\n");
-	show_alloc_mem();
 	left = (void *)chunk + sizeof(t_header) + size + sizeof(t_footer);
 	left->size = chunk->size - size - sizeof(t_footer) - sizeof(t_header);
 	left->free = true;
@@ -34,33 +34,13 @@ t_header	*split_chunk(size_t size, t_header *chunk)
 	chunk->pos = (chunk->pos == END) ? MID : chunk->pos;
 	left->next = chunk->next;
 	left->prev = chunk;
+    left->next->prev = left;
+    chunk->prev->prev = (chunk->prev->prev == chunk) ? left : chunk->prev->prev; 
 	chunk->prev = (chunk->prev == chunk) ? left : chunk->prev;
 	chunk->next = left;
 	chunk->size = size;
 	get_footer(chunk)->size = size;
 	get_footer(left)->size = left->size;
-	puts("after split\n");
-	show_alloc_mem();
-	return (chunk);
-}
-
-t_header	*split_chunky(size_t size, t_header *chunk)
-{
-	t_header	*left;
-
-	left = (void *)chunk + sizeof(t_header) + size + sizeof(t_footer);
-	left->size = chunk->size - size - sizeof(t_footer) - sizeof(t_header);
-	left->free = true;
-	left->pos = (chunk->pos == END) ? END : MID;
-	chunk->pos = (chunk->pos == END) ? MID : chunk->pos;
-	left->next = (chunk->next == chunk) ? left : chunk->next;
-	left->prev = (chunk->prev == chunk) ? left : chunk->prev;
-	left->next->prev = left;
-	left->prev->next = left;
-	get_footer(left)->size = left->size;
-	chunk->size = size;
-	chunk->next = left;
-	get_footer(chunk)->size = size;
 	return (chunk);
 }
 

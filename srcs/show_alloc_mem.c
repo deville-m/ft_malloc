@@ -46,9 +46,9 @@ void	print_header(t_header *h)
 	puts(" : ");
 	putnbr(h->size, 10);
 	puts(" octets -- ");
-	putnbr(h->prev, 16);
+	putnbr((size_t) h->prev, 16);
 	puts(" -- ");
-	putnbr(h->next, 16);
+	putnbr((size_t) h->next, 16);
 	puts("\n");
 }
 
