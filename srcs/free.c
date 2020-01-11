@@ -22,17 +22,34 @@ t_header	*g_free[3] = {NULL, NULL, NULL};
 t_header	*g_malloc = NULL;
 size_t		g_page_size = 4096;
 
+int			valid(t_header *chunk)
+{
+	t_header *walk;
+
+	walk = g_malloc;
+	while (1)
+	{
+		if (walk == chunk)
+			return (1);
+		if (walk->next == g_malloc)
+			break ;
+		walk = walk->next;
+	}
+	return (0);
+}
+
 void		free(void *p)
 {
 	t_header	*chunk;
 	size_t		real_size;
 
-	if (!p)
-		return ;
 	chunk = p - sizeof(t_header);
+	if (!p || !valid(chunk))
+		return ;
 	if (chunk->free)
 		return (void)write(2, "Double free\n", 12);
 	chunk->free = false;
+	chunk = pop(chunk, &g_malloc);
 	real_size = chunk->size;
 	if (real_size < TINY)
 		insert(chunk, &g_free[0]);

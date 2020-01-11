@@ -20,7 +20,11 @@ void		insert(t_header *chunk, t_header **free_lst)
 	t_header *walk;
 
 	if (!*free_lst)
+	{
+		chunk->next = chunk;
+		chunk->prev = chunk;
 		*free_lst = chunk;
+	}
 	else if ((*free_lst)->prev < chunk)
 	{
 		walk = (*free_lst)->prev;

@@ -35,7 +35,6 @@ t_header	*split_chunk(size_t size, t_header *chunk)
 	left->next = chunk->next;
 	left->prev = chunk;
     left->next->prev = left;
-    chunk->prev->prev = (chunk->prev->prev == chunk) ? left : chunk->prev->prev; 
 	chunk->prev = (chunk->prev == chunk) ? left : chunk->prev;
 	chunk->next = left;
 	chunk->size = size;
@@ -49,7 +48,6 @@ t_header	*extract_chunk(size_t size, t_header *chunk, t_header **free_lst)
 	if (size != chunk->size)
 		chunk = split_chunk(size, chunk);
 	chunk = pop(chunk, free_lst);
-	//insert(chunk, &g_malloc);
 	chunk->free = false;
 	return (chunk);
 }

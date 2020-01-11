@@ -87,5 +87,6 @@ void		*malloc(size_t size)
 						+ g_page_size - 1) / g_page_size) * g_page_size);
 	if (!temp)
 		return (NULL);
+	insert(temp, &g_malloc);
 	return ((void *)temp + sizeof(t_header));
 }
