@@ -40,7 +40,6 @@ extern t_header		*g_free[3];
 extern t_header		*g_malloc;
 extern size_t		g_page_size;
 
-void				coalesce(t_header *left, t_header *right);
 t_header			*get_chunk(size_t size, t_header **free_lst);
 t_footer			*get_footer(t_header *header);
 void				insert(t_header *chunk, t_header **free_lst);

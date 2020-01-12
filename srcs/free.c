@@ -38,6 +38,38 @@ int			valid(t_header *chunk)
 	return (0);
 }
 
+void		coalesce(t_header *chunk)
+{
+	t_header	*prev;
+	t_header	*next;
+
+	prev = chunk->prev;
+	if ((void *)prev + sizeof(t_header) + prev->size + sizeof(t_footer) == chunk)
+	{
+		prev->next = chunk->next;
+		prev->size = prev->size + sizeof(t_footer) + sizeof(t_header) + chunk->size;
+		prev->next->prev = prev;
+		get_footer(prev)->size = prev->size;
+	}
+	next = chunk->next;
+	if ((void *)chunk + sizeof(t_header) + chunk->size + sizeof(t_footer) == next)
+	{
+		chunk->next = next->next;
+		chunk->size = chunk->size + sizeof(t_footer) + sizeof(t_header) + next->size;
+		next->next->prev = chunk;
+		get_footer(chunk)->size = chunk->size;
+	}
+}
+
+void		restore(t_header *chunk, size_t real_size)
+{
+	if (real_size < TINY)
+		insert(chunk, &g_free[0]);
+	else if (real_size < MEDIUM)
+		insert(chunk, &g_free[1]);
+	coalesce(chunk);
+}
+
 void		free(void *p)
 {
 	t_header	*chunk;
@@ -48,7 +80,7 @@ void		free(void *p)
 		return ;
 	if (chunk->free)
 		return (void)write(2, "Double free\n", 12);
-	chunk->free = false;
+	chunk->free = true;
 	chunk = pop(chunk, &g_malloc);
 	real_size = chunk->size;
 	if (real_size < TINY)
